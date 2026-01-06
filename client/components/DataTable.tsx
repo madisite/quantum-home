@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { mockUsers, User, PaymentStatus, UserStatus } from '@/data/mockData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +27,7 @@ type TabFilter = 'all' | 'paid' | 'unpaid' | 'overdue';
 export default function DataTable() {
   // User data state
   const [users, setUsers] = useState<User[]>(mockUsers);
+  const navigate = useNavigate();
   
   // UI state
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -253,7 +255,10 @@ export default function DataTable() {
                   Total payable amount: <span className="font-semibold text-foreground">${totalPayable.toFixed(2)}</span> <span className="text-xs">USD</span>
                 </span>
               </div>
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 whitespace-nowrap">
+              <Button
+                onClick={() => navigate('/pay-dues')}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 whitespace-nowrap"
+              >
                 PAY DUES
               </Button>
               {selectedUsers.length > 0 && (
